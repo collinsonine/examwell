@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Admin Routes
+require __DIR__ . '/admin.php';
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,3 +29,6 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+
