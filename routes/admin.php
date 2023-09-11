@@ -10,4 +10,5 @@ Route::controller(AuthController::class)->prefix('admin/')->name('admin.')->grou
 
 Route::controller(AdminController::class)->prefix('admin/')->name('admin.')->middleware(['admin'])->group(function(){
     Route::get('dashboard', 'dashboard')->name('dashboard');
+    Route::get('settings', 'settings')->name('settings');
 });
