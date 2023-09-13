@@ -9,13 +9,14 @@
     <div class="card">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>oops!!!</strong> {{session('success')}}
+                <strong>Success!</strong> {{session('success')}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
         @endif
       <div class="card-body">
+        <form wire:submit="save({{$settings->id}})">
             <!-- Content Row -->
             <div class="row">
                 <div class="col-6 mb-3">
@@ -44,31 +45,37 @@
                 <div class="col-4 mb-3">
                     <div class="form-group">
                         <label for="favicon">favicon</label>
-                        <input type="file" id="favicon" class="form-control">
+                        <input type="file" accept="image/jpg, image/png" id="favicon" wire:model="favicon" class="form-control">
                     </div>
+                    @error('favicon')
+                        <small class="text-center">{{$message}}</small>
+                    @enderror
                 </div>
 
                 <div class="col-4 mb-3">
                     <div class="form-group">
                         <label for="metaimage">Meta Image</label>
-                        <input type="file" id="metaimage" class="form-control">
+                        <input type="file" wire:model="meta_image" id="metaimage" class="form-control">
                     </div>
+                    @error('meta_image')
+                        <small class="text-center">{{$message}}</small>
+                    @enderror
                 </div>
                 <div class="col-4 mb-3">
                     <div class="form-group text-center">
-                        <img src="" alt="" height="200px" width="200px" class="border border-primary border-1">
-                    </div>
-                </div>
-
-                <div class="col-4 mb-3">
-                    <div class="form-group text-center">
-                        <img src="" alt="" height="200px" width="200px" class="border border-primary border-1">
+                        <img src="@if ($logo) {{$logo->temporaryUrl()}} @else {{asset('storage/'.$settings->logo)}} @endif" alt="" height="200px" width="200px" class="border border-primary border-1">
                     </div>
                 </div>
 
                 <div class="col-4 mb-3">
                     <div class="form-group text-center">
-                        <img src="@if ($logo) $logo->logo @else $logo->temporaryUrl() @endif" alt="" height="200px" width="200px" class="border border-primary border-1">
+                        <img src="@if ($favicon) {{$favicon->temporaryUrl()}} @else {{asset('storage/'.$settings->favicon)}} @endif" alt="" height="200px" width="200px" class="border border-primary border-1">
+                    </div>
+                </div>
+
+                <div class="col-4 mb-3">
+                    <div class="form-group text-center">
+                        <img src="@if ($meta_image) {{$meta_image->temporaryUrl()}} @else {{asset('storage/'.$settings->meta_image)}} @endif" alt="" height="200px" width="200px" class="border border-primary border-1">
                     </div>
                 </div>
 
@@ -86,9 +93,11 @@
                 </div>
 
                 <div class="d-grid w-100">
-                    <button class="btn btn-primary w-100" wire:click.debouce.500ms="save"> Save</button>
+                    <button class="btn btn-primary w-100" type="submit"> Save</button>
                 </div>
             </div>
+        </form>
+
       </div>
     </div>
 
